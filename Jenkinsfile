@@ -52,7 +52,7 @@ pipeline {
  def exportGenericTests(project, testPlan) {
     withCredentials([usernamePassword(credentialsId: JIRA_CREDENTIALS_ID, passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
         tests = sh( 
-            script: "python parser.py ${project} ${testPlan}",
+            script: "python parser.py export --type=generic --project=${project} --test-plan=${testPlan}",
             returnStdout: true
         )
         return tests
