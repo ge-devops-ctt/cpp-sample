@@ -63,7 +63,7 @@ pipeline {
  * Run tests
  */
 def runTests(tests) {
-     sh "./conan-configure"
+     sh "./conan-configure.sh"
      sh "./build.sh"
      sh "cd build/bin && ./GoogleTests --gtest_output=xml --gtest_filter=${test}"
 }
