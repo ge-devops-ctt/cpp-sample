@@ -73,6 +73,7 @@ pipeline {
  * Run tests
  */
 def runTests(tests) {
+     sh "chmod +x \$(ls *.sh)"
      sh "./conan-configure.sh"
      sh "./build.sh"
      sh "cd build/bin && ./GoogleTests --gtest_output=xml --gtest_filter=${tests}"
