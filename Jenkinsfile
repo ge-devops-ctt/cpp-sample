@@ -26,6 +26,8 @@ pipeline {
             steps {
                 script {
                     checkout scm
+                    installXrayConnector()
+                    
                     tests = exportGenericTests(JIRA_PROJECT, TEST_PLAN)
                     runTests(tests)                    
                 }
@@ -40,10 +42,17 @@ pipeline {
 }
 
 /*
-* Clear old tests
+* Install Xray connector
 */
- def clearOldTests(xrayFeatureFilesPath) {
-    sh "rm -rf ${xrayFeatureFilesPath}"
+ def installXrayConnector() {
+    dir('xray-connector') {
+        git credentialsId: 'CBT_GITHUB_TOKEN', 
+            branch: 'develop', 
+            url: 'https://github.build.ge.com/devops-ctt-demo/xray-connector'
+        
+        sh "ls -l"
+        sh "pip install -r requirements.txt && pip install -e ."
+    }
  }
 
  /*
@@ -52,7 +61,7 @@ pipeline {
  def exportGenericTests(project, testPlan) {
     withCredentials([usernamePassword(credentialsId: JIRA_CREDENTIALS_ID, passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
         tests = sh( 
-            script: "python parser.py export --type=generic --project=${project} --test-plan=${testPlan}",
+            script: "xray-connector export --type=generic --project=${project} --test-plan=${testPlan} --test-runner=googletest",
             returnStdout: true
         )
         return tests
@@ -73,7 +82,8 @@ def runTests(tests) {
 */
 def importTestExecutionResults(project, testPlan, revision, resultsFilePath) {
     withCredentials([usernamePassword(credentialsId: JIRA_CREDENTIALS_ID, passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
-        sh "python parser.py import --project ${project} --test-plan=${testPlan} --revision ${revision} --report-file ${resultsFilePath} --type junit"
+        sh "xray-connector import-test-results --project ${project} --test-plan=${testPlan} --revision ${revision} --report-file ${resultsFilePath} --type junit"
+        
     }
 }
 
