@@ -28,7 +28,6 @@ pipeline {
                 script {
                     checkout scm
                     installXrayConnector()
-                    sh "ls -l"
                     tests = exportGenericTests(JIRA_PROJECT, TEST_PLAN)
                     runTests(tests)                    
                 }
@@ -51,7 +50,6 @@ pipeline {
             branch: 'develop', 
             url: 'https://github.build.ge.com/devops-ctt-demo/xray-connector'
         
-        sh "ls -l"
         sh "pip install -r requirements.txt && pip install -e ."
     }
  }
