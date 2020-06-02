@@ -3,7 +3,7 @@ import groovy.json.JsonSlurper
 pipeline {
     agent none 
     environment {
-        JIRA_CREDENTIALS_ID="9966b33c-2ec1-4f41-9419-b4ed1128a8cd"
+        JIRA_CREDENTIALS_ID="GENERIC_CBT_SSO"
         TEST_PLAN="SWFTY-395"
         JIRA_URL="https://stamp.gs.ec.ge.com/jira"
         JIRA_PROJECT="SWFTY"
@@ -21,6 +21,7 @@ pipeline {
             agent {
                 docker { 
                     image 'conanio/gcc8'
+                    label 'dind'
                 }
             }
             steps {
