@@ -28,7 +28,7 @@ pipeline {
                 script {
                     checkout scm
                     installXrayConnector()
-                    
+                    sh "ls -l"
                     tests = exportGenericTests(JIRA_PROJECT, TEST_PLAN)
                     runTests(tests)                    
                 }
