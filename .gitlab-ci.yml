@@ -36,6 +36,12 @@ stages:
   - test
   - deploy
 
+armv7:
+  stage: before
+  image: $ARMV7_RUNTIME_DOCKER_IMAGE
+  script:
+    - ls
+
 x64:build:
   extends: .build
   variables:
