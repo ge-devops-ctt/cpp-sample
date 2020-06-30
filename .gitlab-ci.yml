@@ -42,7 +42,7 @@ armv7:
   script:
     - wget https://github.com/multiarch/qemu-user-static/releases/download/v2.12.0/qemu-arm-static -O qemu-arm-static
     - chmod 554 qemu-arm-static
-    - docker run --rm arm32v7/debian uname -m'  
+    - docker run --rm arm32v7/debian uname -m
 
 x64:build:
   extends: .build
