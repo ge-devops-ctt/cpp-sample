@@ -7,7 +7,7 @@ stages:
 
 before_script:
   - echo "Before script action"
-  - chmod +x *.sh
+  - sudo chmod +x *.sh
 
 build:
   tags:
