@@ -37,7 +37,7 @@ stages:
   - test
   - deploy
 
-armv64:
+armv:
   stage: before
   image: arm64v8/ubuntu
     - uname -m
