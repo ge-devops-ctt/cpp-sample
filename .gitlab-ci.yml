@@ -32,4 +32,4 @@ test:
     - cd build/bin && ./GoogleTests --gtest_output=xml:report.xml
   artifacts:
     reports:
-      junit: report.xml
+      junit: build/bin/report.xml
