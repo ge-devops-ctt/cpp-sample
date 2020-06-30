@@ -1,0 +1,30 @@
+image: conanio/gcc8
+
+stages:
+  - build
+  - test
+  - deploy
+
+before_script:
+  - echo "Before script action"
+
+build:
+  stage: build
+  only:
+    - master
+  script:
+    - ./build.sh
+  artifacts:
+    paths:
+      - build/
+
+test:
+  stage: test
+  needs:
+    - job: build
+      artifacts: true
+  script:
+    - cd build/bin && ./GoogleTests --gtest_output=xml:report.xml
+  artifacts:
+    reports:
+      junit: report.xml
