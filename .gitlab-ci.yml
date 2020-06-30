@@ -9,6 +9,8 @@ before_script:
   - echo "Before script action"
 
 build:
+  tags:
+    - kubernetes
   stage: build
   only:
     - master
@@ -19,6 +21,8 @@ build:
       - build/
 
 test:
+  tags:
+    - kubernetes
   stage: test
   needs:
     - job: build
