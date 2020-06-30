@@ -22,7 +22,7 @@ variables:
 .test:
   image: conanio/gcc8
   tags:
-    - kubernetes
+    - gitlab-org
   stage: test
   script:
     - cd build/bin && ./GoogleTests --gtest_output=xml:report.xml
@@ -31,6 +31,7 @@ variables:
       junit: build/bin/report.xml
 
 stages:
+  - before
   - build
   - test
   - deploy
@@ -44,6 +45,8 @@ x64:build:
 x64:test:
   extends: .test 
   needs: ["x64:build"]
+  dependencies:
+    - x64:build
   image: $X86_64_DOCKER_IMAGE
 
 armv7:build:
@@ -55,5 +58,7 @@ armv7:build:
 armv7:test:
   extends: .test
   needs: ["armv7:build"]
+  dependencies:
+    - armv7:build
   image: $ARMV7_RUNTIME_DOCKER_IMAGE
   
