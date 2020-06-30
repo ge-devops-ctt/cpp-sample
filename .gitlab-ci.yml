@@ -1,7 +1,11 @@
 variables:
   X86_DOCKER_IMAGE: conanio/gcc8
-  X86_64_DOCKER_IMAGE: registry.gear.ge.com/cbt/gcc8-with-coverity:0.2.0
+  X86_64_DOCKER_IMAGE: conanio/gcc8
   ARMV7_DOCKER_IMAGE: conanio/gcc8-armv7
+  X86_CONAN_PROFILE: profiles/x86
+  X86_64_CONAN_PROFILE: profiles/x86_64
+  ARMV7_CONAN_PROFILE: profiles/armv7
+  ARMV7_RUNTIME_DOCKER_IMAGE: arm32v7/debian 
 
 .build:
   image: conanio/gcc8
@@ -31,11 +35,25 @@ stages:
   - test
   - deploy
 
-build_x64:
-  extends: .build 
-  image: $X86_DOCKER_IMAGE
+x64:build:
+  extends: .build
+  variables:
+    - CONAN_PROFILE: $X86_64_CONAN_PROFILE 
+  image: $X86_64_DOCKER_IMAGE
 
-test:
+x64:test:
   extends: .test 
-  image: $X86_DOCKER_IMAGE
+  needs: ["x64:build"]
+  image: $X86_64_DOCKER_IMAGE
+
+armv7:build:
+  extends: .build
+  variables:
+    - CONAN_PROFILE: $ARMV7_CONAN_PROFILE  
+  image: $ARMV7_DOCKER_IMAGE
+
+armv7:test:
+  extends: .test
+  needs: ["armv7:build"]
+  image: $ARMV7_RUNTIME_DOCKER_IMAGE
   
