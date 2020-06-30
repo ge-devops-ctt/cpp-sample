@@ -39,6 +39,8 @@ stages:
 armv7:
   stage: before
   image: docker:stable
+  services:
+  - docker:dind
   script:
     - wget https://github.com/multiarch/qemu-user-static/releases/download/v2.12.0/qemu-arm-static -O qemu-arm-static
     - chmod 554 qemu-arm-static
