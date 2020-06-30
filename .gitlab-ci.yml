@@ -39,8 +39,10 @@ stages:
 
 armv64:
   stage: before
-  #image: arm64v8/ubuntu
-  image: ubuntu
+  image: arm64v8/ubuntu
+  #image: ubuntu
+  tags:
+    - kubernetes
   script:
     - uname -m
 
