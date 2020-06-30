@@ -38,7 +38,7 @@ stages:
 x64:build:
   extends: .build
   variables:
-    - CONAN_PROFILE: $X86_64_CONAN_PROFILE 
+    CONAN_PROFILE: $X86_64_CONAN_PROFILE 
   image: $X86_64_DOCKER_IMAGE
 
 x64:test:
@@ -49,7 +49,7 @@ x64:test:
 armv7:build:
   extends: .build
   variables:
-    - CONAN_PROFILE: $ARMV7_CONAN_PROFILE  
+    CONAN_PROFILE: $ARMV7_CONAN_PROFILE  
   image: $ARMV7_DOCKER_IMAGE
 
 armv7:test:
