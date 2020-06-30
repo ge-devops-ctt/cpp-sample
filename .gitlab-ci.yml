@@ -36,6 +36,9 @@ stages:
   - test
   - deploy
 
+before_script:
+  - docker info
+
 armv7:
   stage: before
   image: docker:stable
