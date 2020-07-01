@@ -52,6 +52,8 @@ stages:
 docker-compose:
   stage: before
   image: docker/compose
+  services:
+  - docker:dind
   script:
     - docker info
     - docker-compose up -d
