@@ -46,9 +46,11 @@ windows:
   - windows
   #tags:
   #  - kubernetes
+  services:
+    - balabit/syslog-ng
   script:
     - Get-ComputerInfo
-    - dotnet 
+    - ping balabit-syslog-ng
 
 x64:build:
   extends: .build
