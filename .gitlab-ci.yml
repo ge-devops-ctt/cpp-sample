@@ -10,8 +10,8 @@ variables:
 
 .build:
   image: conanio/gcc8
-  tags:
-    - kubernetes
+  #tags:
+  #  - kubernetes
   stage: build
   script:
     - sudo chmod +x *.sh
@@ -22,8 +22,8 @@ variables:
 
 .test:
   image: conanio/gcc8
-  tags:
-    - gitlab-org
+  #tags:
+  #  - gitlab-org
   stage: test
   script:
     - cd build/bin && ./GoogleTests --gtest_output=xml:report.xml
@@ -41,8 +41,8 @@ armv64:
   stage: before
   image: arm64v8/ubuntu
   #image: ubuntu
-  tags:
-    - kubernetes
+  #tags:
+  #  - kubernetes
   script:
     - uname -m
 
