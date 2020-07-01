@@ -1,0 +1,43 @@
+version: '3'
+
+volumes:
+  syslog-conf:
+
+services:
+  server:
+    image: balabit/syslog-ng
+    container_name: server
+    networks:
+      app_net:
+        ipv4_address: 172.22.0.2
+    volumes:
+      - ./syslog:/tmp/syslog-data
+     # - type: volume
+     #   source: syslog-conf
+     #   target: /etc/syslog-ng
+      #- "./syslog-ng-server.conf:/etc/syslog-ng/syslog-ng.conf"
+      #- /c/Users/212782121/Dev/docker/compose/csplog-functional-test/nginx:/var/log/nginx/
+    
+  testApplication:
+    image: conanio/gcc8
+    tty: true
+    container_name: testApplication
+    working_dir: /app
+    user: root
+    networks:
+      app_net:
+        ipv4_address: 172.22.0.3
+    volumes:
+      - ./syslog:/tmp/syslog-data
+      #- ".:/app"
+networks:
+  app_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.22.0.0/24"
+
+
+# docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v "$pwd\Dev\docker\compose\csplog-functional-test\:/app" docker/compose sh
+
+# docker exec -it app_client_1 sh -c "echo 1 | nc server 601"
