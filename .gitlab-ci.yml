@@ -37,14 +37,18 @@ stages:
   - test
   - deploy
 
-armv64:
+windows:
   stage: before
-  image: arm64v8/ubuntu
+  #image: arm64v8/ubuntu
   #image: ubuntu
+  image: servercore:ltsc2019
+  tags:
+  - windows
   #tags:
   #  - kubernetes
   script:
-    - uname -m
+    - Get-ComputerInfo
+    - dotnet 
 
 x64:build:
   extends: .build
