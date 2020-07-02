@@ -4,6 +4,12 @@ import os
 def getAppName():
     return os.getenv("GIT_REPO_NAME", "GoogleTest Sample")
 
+def coverage():
+    return bool(os.getenv("ENABLE_COVERAGE", '0') == '1')
+
+def coverityScan():
+    return bool(os.getenv("COVERITY_SCAN", '0') == '1')
+
 class TinyCSPLogConan(ConanFile):
 
     name = getAppName()
@@ -22,7 +28,18 @@ class TinyCSPLogConan(ConanFile):
         self.requires("gtest/1.8.1@bincrafters/stable")
 
     def build(self):
-
-        cmake = CMake(self)
-        cmake.configure(source_folder="src")
-        cmake.build()
+        if coverage():
+            cmake = CMake(self, build_type='Debug')
+            cmake.configure(source_folder="src")
+            cmake.build()
+            cmake.test()
+            cmake.build(target='gcovr')
+        else:
+            cmake = CMake(self)
+            cmake.configure(source_folder="src")
+            if coverityScan():
+                self.run("cov-configure --gcc")
+                self.run("cov-build --dir covtemp cmake --build .")
+                self.run("cov-analyze --dir covtemp --all --export-summaries=false")
+            else:
+                cmake.build()

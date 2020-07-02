@@ -18,7 +18,22 @@ variables:
     - ./build.sh $CONAN_PROFILE
   artifacts:
     paths:
-      - build/
+      - build
+
+.coverage:
+  image: $X86_64_DOCKER_IMAGE
+  #tags:
+  #  - kubernetes
+  stage: build
+  variables:
+    CONAN_PROFILE: $X86_64_CONAN_PROFILE
+    ENABLE_COVERAGE: 1
+  script:
+    - sudo chmod +x *.sh
+    - ./build.sh $CONAN_PROFILE
+  artifacts:
+    reports:
+      cobertura: build/coverage.xml
 
 .test:
   image: conanio/gcc8
@@ -26,10 +41,10 @@ variables:
   #  - gitlab-org
   stage: test
   script:
-    - cd build/bin && ./GoogleTests --gtest_output=xml:report.xml
+    - cd build/test/bin && ./GoogleTests --gtest_output=xml:report.xml
   artifacts:
     reports:
-      junit: build/bin/report.xml
+      junit: build/test/bin/report.xml
 
 stages:
   - before
@@ -49,23 +64,28 @@ stages:
   #script:
   #  - Get-ComputerInfo
 
-docker-compose:
-  stage: before
-  image: docker:stable
-  tags:
-    - docker
-  services:
-  - docker:dind
-  script:
-    - docker info
-    - docker-compose up -d
-    - docker ps
+# docker-compose:
+#   stage: before
+#   image: docker:stable
+#   tags:
+#     - docker
+#   services:
+#   - docker:dind
+#   script:
+#     - docker info
+#     - docker-compose up -d
+#     - docker ps
+
+coverage:
+  extends: .coverage
+  
 
 x64:build:
   extends: .build
   variables:
     CONAN_PROFILE: $X86_64_CONAN_PROFILE 
   image: $X86_64_DOCKER_IMAGE
+  
 
 x64:test:
   extends: .test 
