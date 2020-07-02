@@ -29,6 +29,7 @@ variables:
     CONAN_PROFILE: $X86_64_CONAN_PROFILE
     ENABLE_COVERAGE: 1
   script:
+    - pip install gcovr
     - sudo chmod +x *.sh
     - ./build.sh $CONAN_PROFILE
   artifacts:
@@ -79,7 +80,6 @@ stages:
 coverage:
   extends: .coverage
   
-
 x64:build:
   extends: .build
   variables:
