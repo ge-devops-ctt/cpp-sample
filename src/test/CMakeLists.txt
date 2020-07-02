@@ -28,11 +28,6 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         )
 endif ()
 
-
-# setup conan
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-
 #set(SRC_FOLDER ${SRC_PROJECT_PATH}/src/*.cc)
 #file(GLOB_RECURSE SRC_FILES ${SRC_FOLDER})
 
