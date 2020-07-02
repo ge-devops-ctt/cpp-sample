@@ -11,5 +11,6 @@ link_directories(${CONAN_LIB_DIRS})
 add_executable(factorial-bin ${SRC_FILES})
 add_library(factorial SHARED ${SRC_FILES})
 
-target_link_libraries(${BINARY} ${CONAN_LIBS})
+target_link_libraries(factorial ${CONAN_LIBS})
+target_link_libraries(factorial-bin ${CONAN_LIBS})
  
