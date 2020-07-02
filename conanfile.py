@@ -43,3 +43,29 @@ class TinyCSPLogConan(ConanFile):
                 self.run("cov-analyze --dir covtemp --all --export-summaries=false")
             else:
                 cmake.build()
+    
+    def package(self):
+        self.copy("*.h", dst="include", src="src/logger-module/include", keep_path=False)
+
+        if (self.settings.os == "Windows"):
+            if self.options.shared:
+                self.copy("*.dll", dst="bin", src="bin", keep_path=False)
+                self.copy("TinyCspLog.lib", dst="lib", src="lib", keep_path=False)
+            else:
+                self.copy("TinyCspLog_static.lib", dst="lib", src="lib", keep_path=False)
+
+        if (self.settings.os == "Linux"):
+            if self.options.shared:
+                self.copy("*.so", dst="lib", src="lib", keep_path=False)
+            else:
+                self.copy("*.a", dst="lib", src="lib", keep_path=False)
+
+        self.copy("*.xml", dst="res", src="lib/resources", keep_path=False)
+        self.copy("*.xsd", dst="res", src="lib/resources", keep_path=False)
+
+    def package_info(self):
+        self.cpp_info.libs = tools.collect_libs(self)
+        self.cpp_info.includedirs = [
+            "include",
+        ]
+        self.cpp_info.resdirs = ['res']
