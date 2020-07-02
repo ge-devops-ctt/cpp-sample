@@ -42,10 +42,10 @@ variables:
   #  - gitlab-org
   stage: test
   script:
-    - cd build/test/bin && ./GoogleTests --gtest_output=xml:report.xml
+    - cd build/bin && ./GoogleTests --gtest_output=xml:report.xml
   artifacts:
     reports:
-      junit: build/test/bin/report.xml
+      junit: build/bin/report.xml
 
 stages:
   - before
