@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.10.0)
 project(GoogleTests)
 
+# setup conan
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
+
+
 # Add code coverage
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     message("Code Coverage enabled")
