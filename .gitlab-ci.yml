@@ -77,8 +77,8 @@ stages:
 #     - docker-compose up -d
 #     - docker ps
 
-coverage:
-  extends: .coverage
+# coverage:
+#  extends: .coverage
   
 x64:build:
   extends: .build
