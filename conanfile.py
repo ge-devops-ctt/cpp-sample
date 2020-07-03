@@ -25,8 +25,7 @@ class TinyCSPLogConan(ConanFile):
 
 
     def requirements(self):
-        #self.requires("gtest/1.8.1@bincrafters/stable")
-        pass
+        self.requires("gtest/1.8.1@bincrafters/stable")
 
     def build(self):
         if coverage():

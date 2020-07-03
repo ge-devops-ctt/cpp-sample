@@ -5,7 +5,7 @@ project(Factorial)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
  
-set(SRC_FOLDER ${PROJECT_PATH}/*.cc ${PROJECT_PATH}/*.h)
+set(SRC_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/*.cc ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 file(GLOB_RECURSE SRC_FILES ${SRC_FOLDER})
  
 link_directories(${CONAN_LIB_DIRS})
