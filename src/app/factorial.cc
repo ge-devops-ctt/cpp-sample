@@ -1,4 +1,12 @@
 #include "factorial.h"
+#include <iostream>
+using namespace std;
+
+int uncovered()
+{
+  cout << "Uncovered";
+  return 0;
+}
 
 // Returns n! (the factorial of n).  For negative n, n! is defined to be 1.
 int Factorial(int n)
@@ -17,6 +25,7 @@ bool IsPrime(int n)
 {
   // Trivial case 1: small numbers
   if (n <= 1)
+    cout << "covered";
     return false;
 
   // Trivial case 2: even numbers
