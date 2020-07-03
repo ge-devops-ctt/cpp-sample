@@ -33,6 +33,6 @@ link_directories(${CONAN_LIB_DIRS})
 
 add_subdirectory(app)
 
-#enable_testing()
-#add_subdirectory(test)
+enable_testing()
+add_subdirectory(test)
 
