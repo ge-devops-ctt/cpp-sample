@@ -6,7 +6,8 @@ variables:
   X86_CONAN_PROFILE: profiles/x86
   X86_64_CONAN_PROFILE: profiles/x86_64
   ARMV7_CONAN_PROFILE: profiles/armv7
-  ARMV7_RUNTIME_DOCKER_IMAGE: arm32v7/debian 
+  ARMV7_RUNTIME_DOCKER_IMAGE: arm32v7/debian
+  GOOGLE_TEST_FOLDER_PATH: build/test/bin
 
 .build:
   image: conanio/gcc8
@@ -42,10 +43,10 @@ variables:
   #  - gitlab-org
   stage: test
   script:
-    - cd build/bin && ./GoogleTests --gtest_output=xml:report.xml
+    - cd $GOOGLE_TEST_FOLDER_PATH && ./GoogleTests --gtest_output=xml:report.xml
   artifacts:
     reports:
-      junit: build/bin/report.xml
+      junit: $GOOGLE_TEST_FOLDER_PATH/report.xml
 
 stages:
   - before
@@ -77,8 +78,8 @@ stages:
 #     - docker-compose up -d
 #     - docker ps
 
-# coverage:
-#  extends: .coverage
+coverage:
+  extends: .coverage
   
 x64:build:
   extends: .build
@@ -100,10 +101,10 @@ armv7:build:
     CONAN_PROFILE: $ARMV7_CONAN_PROFILE  
   image: $ARMV7_DOCKER_IMAGE
 
-armv7:test:
-  extends: .test
-  needs: ["armv7:build"]
-  dependencies:
-    - armv7:build
-  image: $ARMV7_RUNTIME_DOCKER_IMAGE
+# armv7:test:
+#   extends: .test
+#   needs: ["armv7:build"]
+#   dependencies:
+#     - armv7:build
+#   image: $ARMV7_RUNTIME_DOCKER_IMAGE
   
