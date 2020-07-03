@@ -23,9 +23,10 @@ int Factorial(int n)
 // Returns true if and only if n is a prime number.
 bool IsPrime(int n)
 {
+  cout << "covered";
   // Trivial case 1: small numbers
   if (n <= 1)
-    cout << "covered";
+    
     return false;
 
   // Trivial case 2: even numbers
