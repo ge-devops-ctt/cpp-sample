@@ -150,6 +150,7 @@ build:
       - bw-output/
   script: 
     # Run the build inside the build wrapper
+    - sudo chmod +x *.sh
     - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output ./build.sh
       
 sonarcloud-check: 
