@@ -34,10 +34,10 @@ variables:
     - sudo chmod +x *.sh
     - ./build.sh $CONAN_PROFILE
   artifacts:
-    #reports:
-    #  cobertura: build/coverage.xml
-    paths:
-      - build/coverage/
+    reports:
+      cobertura: build/coverage.xml
+    #paths:
+    #  - build/coverage/
 
 .pages:
   stage: publish
@@ -97,8 +97,8 @@ stages:
 coverage:
   extends: .coverage
 
-pages:
-  extends: .pages
+#pages:
+#  extends: .pages
   
 x64:build:
   extends: .build

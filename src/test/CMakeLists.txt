@@ -24,14 +24,19 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     # Create the gcov target. Run coverage tests with 'make gcov'
     add_custom_target(gcovr
         #COMMAND ${CMAKE_MAKE_PROGRAM} test
-        COMMAND mkdir -p "${CMAKE_BINARY_DIR}/coverage/"
+        #COMMAND mkdir -p "${CMAKE_BINARY_DIR}/coverage/"
         COMMAND gcovr 
         -r "${CMAKE_SOURCE_DIR}/app"
         --object-directory "${OBJECT_DIR}"
         --gcov-executable "/usr/bin/gcov-8"
         -e ${REG}
-        --html-details
-        -o "${CMAKE_BINARY_DIR}/coverage/coverage.html"
+        COMMAND gcovr 
+        -r "${CMAKE_SOURCE_DIR}/app"
+        --object-directory "${OBJECT_DIR}"
+        --gcov-executable "/usr/bin/gcov-8"
+        -e ${REG}
+        --xml
+        -o "${CMAKE_BINARY_DIR}/coverage.xml"
         )
 endif ()
 
