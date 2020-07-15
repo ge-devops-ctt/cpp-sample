@@ -34,8 +34,23 @@ variables:
     - sudo chmod +x *.sh
     - ./build.sh $CONAN_PROFILE
   artifacts:
-    reports:
-      cobertura: build/coverage.xml
+    #reports:
+    #  cobertura: build/coverage.xml
+    paths:
+      - build/coverage/
+
+.pages:
+  stage: build
+  dependencies:
+    - coverage
+  script:
+    - mv build/coverage/ public/
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  #only:
+  #  - master
 
 .test:
   image: conanio/gcc8
@@ -80,6 +95,9 @@ stages:
 
 coverage:
   extends: .coverage
+
+pages:
+  extends: .page
   
 x64:build:
   extends: .build

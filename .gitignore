@@ -335,3 +335,4 @@ conan/
 .vscode/
 syslog
 .env
+build-local.sh
