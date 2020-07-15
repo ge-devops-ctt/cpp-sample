@@ -8,6 +8,8 @@ variables:
   ARMV7_CONAN_PROFILE: profiles/armv7
   ARMV7_RUNTIME_DOCKER_IMAGE: arm32v7/debian
   GOOGLE_TEST_FOLDER_PATH: build/test/bin
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
 
 .build:
   image: conanio/gcc8
@@ -119,6 +121,48 @@ armv7:build:
   variables:
     CONAN_PROFILE: $ARMV7_CONAN_PROFILE  
   image: $ARMV7_DOCKER_IMAGE
+
+get-sonar-binaries: 
+  stage: .pre
+  cache: 
+    policy: push
+    key: "${CI_COMMIT_SHORT_SHA}"
+    paths: 
+      - build-wrapper/
+      - sonar-scanner/
+  script: 
+    # Download sonar-scanner
+    - curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873-linux.zip'
+    - unzip -o sonar-scanner.zip
+    - mv sonar-scanner-4.2.0.1873-linux sonar-scanner
+    # Download build-wrapper
+    - curl -sSLo ./build-wrapper-linux-x86.zip "${SONAR_HOST_URL}/static/cpp/build-wrapper-linux-x86.zip"
+    - unzip -oj build-wrapper-linux-x86.zip -d ./build-wrapper
+
+build: 
+  stage: build
+  cache: 
+    policy: pull-push
+    key: "${CI_COMMIT_SHORT_SHA}"
+    paths: 
+      - build-wrapper/
+      - sonar-scanner/
+      - bw-output/
+  script: 
+    # Run the build inside the build wrapper
+    - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output ./build.sh
+      
+sonarcloud-check: 
+  stage: .post
+  cache: 
+    policy: pull
+    key: "${CI_COMMIT_SHORT_SHA}"
+    paths: 
+      - build-wrapper/
+      - sonar-scanner/
+      - bw-output/
+  script: 
+    - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.build-wrapper-output=bw-output
 
 # armv7:test:
 #   extends: .test
