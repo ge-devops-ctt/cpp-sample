@@ -97,7 +97,7 @@ coverage:
   extends: .coverage
 
 pages:
-  extends: .page
+  extends: .pages
   
 x64:build:
   extends: .build
