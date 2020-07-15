@@ -40,7 +40,7 @@ variables:
       - build/coverage/
 
 .pages:
-  stage: build
+  stage: publish
   dependencies:
     - coverage
   script:
@@ -66,6 +66,7 @@ variables:
 stages:
   - before
   - build
+  - publish
   - test
   - deploy
 
