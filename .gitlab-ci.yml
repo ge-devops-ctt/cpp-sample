@@ -139,7 +139,8 @@ get-sonar-binaries:
     - curl -sSLo ./build-wrapper-linux-x86.zip "${SONAR_HOST_URL}/static/cpp/build-wrapper-linux-x86.zip"
     - unzip -oj build-wrapper-linux-x86.zip -d ./build-wrapper
 
-build: 
+sonar:
+  image: $X86_64_DOCKER_IMAGE
   stage: build
   cache: 
     policy: pull-push
