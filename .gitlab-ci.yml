@@ -35,7 +35,7 @@ variables:
     - ./build.sh $CONAN_PROFILE
   artifacts:
     reports:
-      cobertura: build/coverage.xml
+      cobertura: build/cobertura-coverage.xml
     #paths:
     #  - build/coverage/
 

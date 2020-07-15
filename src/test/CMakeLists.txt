@@ -36,7 +36,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         --gcov-executable "/usr/bin/gcov-8"
         -e ${REG}
         --xml
-        -o "${CMAKE_BINARY_DIR}/coverage.xml"
+        -o "${CMAKE_BINARY_DIR}/cobertura-coverage.xml"
         )
 endif ()
 
