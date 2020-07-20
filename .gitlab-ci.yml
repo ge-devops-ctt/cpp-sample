@@ -177,6 +177,7 @@ sonarcloud-check:
     - coverage
     - sonar
   script: 
+    - ls -l
     - ls build
     - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.build-wrapper-output=bw-output -Dsonar.coverageReportPaths=build/sonar-coverage.xml
 
