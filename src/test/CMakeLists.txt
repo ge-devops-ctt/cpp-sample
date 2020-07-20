@@ -38,10 +38,12 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         --xml
         -o "${CMAKE_BINARY_DIR}/cobertura-coverage.xml"
          COMMAND gcovr 
-        -r "${CMAKE_SOURCE_DIR}/app"
+        #-r "${CMAKE_SOURCE_DIR}/app"
+        -r "${CMAKE_SOURCE_DIR}/.."
         --object-directory "${OBJECT_DIR}"
         --gcov-executable "/usr/bin/gcov-8"
         -e ${REG}
+        -e "src/test/*"
         --sonarqube
         -o "${CMAKE_BINARY_DIR}/sonar-coverage.xml"
         )
