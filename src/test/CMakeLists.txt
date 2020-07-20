@@ -43,7 +43,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         --object-directory "${OBJECT_DIR}"
         --gcov-executable "/usr/bin/gcov-8"
         -e ${REG}
-        -e "src/test/*"
+        --exclude-directories "src/test/"
         --sonarqube
         -o "${CMAKE_BINARY_DIR}/sonar-coverage.xml"
         )
