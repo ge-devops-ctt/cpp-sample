@@ -1,3 +1,7 @@
+# docker run -it -w /app -v "C:\Users\212782121\Dev\devops\gitlab\GoogleTest-sample:/app" conanio/gcc8 bash
+# export http_proxy=http://PITC-Zscaler-EMEA-Amsterdam3PR.proxy.corporate.ge.com:80
+# export https_proxy=http://PITC-Zscaler-EMEA-Amsterdam3PR.proxy.corporate.ge.com:80
+
 # docker exec -it testApplication bash
 set -xe
 
