@@ -31,22 +31,17 @@ variables:
   variables:
     CONAN_PROFILE: $X86_64_CONAN_PROFILE
     ENABLE_COVERAGE: 1
-  cache: 
-    policy: push
-    key: "${CI_COMMIT_SHORT_SHA}"
-    paths: 
-      - build-wrapper/
-      - sonar-scanner/
-      - bw-output/
-      - build/
   script:
     - pip install gcovr
     - sudo chmod +x *.sh
     - ./build.sh $CONAN_PROFILE
     - ls build 
   artifacts:
+    paths:
+      - build/sonar-coverage.xml
     reports:
       cobertura: build/cobertura-coverage.xml
+      
     #paths:
     #  - build/coverage/
 
