@@ -31,6 +31,11 @@ variables:
   variables:
     CONAN_PROFILE: $X86_64_CONAN_PROFILE
     ENABLE_COVERAGE: 1
+  cache: 
+    policy: push
+    key: "${CI_COMMIT_SHORT_SHA}"
+    paths: 
+      - build/sonar-coverage.xml
   script:
     - pip install gcovr
     - sudo chmod +x *.sh
@@ -149,7 +154,6 @@ sonar:
       - build-wrapper/
       - sonar-scanner/
       - bw-output/
-      - build/sonar-coverage.xml
   script: 
     # Run the build inside the build wrapper
     - sudo chmod +x *.sh
@@ -166,7 +170,7 @@ sonarcloud-check:
       - bw-output/
       - build/sonar-coverage.xml
   script: 
-    - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.build-wrapper-output=bw-output sonar.coverageReportPaths=build/sonar-coverage.xml
+    - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.build-wrapper-output=bw-output -Dsonar.coverageReportPaths=build/sonar-coverage.xml
 
 # armv7:test:
 #   extends: .test
