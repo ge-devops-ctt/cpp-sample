@@ -35,7 +35,7 @@ variables:
     policy: push
     key: "${CI_COMMIT_SHORT_SHA}"
     paths: 
-      - build/sonar-coverage.xml
+      - build
   script:
     - pip install gcovr
     - sudo chmod +x *.sh
@@ -168,8 +168,9 @@ sonarcloud-check:
       - build-wrapper/
       - sonar-scanner/
       - bw-output/
-      - build/sonar-coverage.xml
+      - build
   script: 
+    - ls build
     - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.build-wrapper-output=bw-output -Dsonar.coverageReportPaths=build/sonar-coverage.xml
 
 # armv7:test:
