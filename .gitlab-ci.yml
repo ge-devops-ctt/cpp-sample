@@ -158,7 +158,6 @@ sonar:
       - build-wrapper/
       - sonar-scanner/
       - bw-output/
-      - build/
   script: 
     # Run the build inside the build wrapper
     - sudo chmod +x *.sh
