@@ -15,12 +15,12 @@ fi
 export buildPath=build/
 export sourcePath=src/
 export ORG_NAME=CBT
-export CHANNEL=stable
+ORG_NAME=${ORG_NAME:=GE-REN-GA-DevOps}
+CHANNEL=${CHANNEL:=stable}
 
 rm -r ${buildPath} || true
 conan install . --install-folder=${buildPath} --profile ${profile} -u --build missing
 conan build . --build-folder=${buildPath}
-#conan export-pkg . ${ORG_NAME}/${CHANNEL} --source-folder=${sourcePath} --build-folder=${buildPath} --force
-#ls
+conan export-pkg . ${ORG_NAME}/${CHANNEL} --source-folder=${sourcePath} --build-folder=${buildPath} --force
 
 set +x

@@ -2,7 +2,7 @@ from conans import ConanFile, tools, CMake
 import os
 
 def getAppName():
-    return os.getenv("GIT_REPO_NAME", "GoogleTest Sample")
+    return os.getenv("GIT_REPO_NAME", "CppSample")
 
 def coverage():
     return bool(os.getenv("ENABLE_COVERAGE", '0') == '1')
@@ -45,23 +45,17 @@ class TinyCSPLogConan(ConanFile):
                 cmake.build()
     
     def package(self):
-        self.copy("*.h", dst="include", src="src/logger-module/include", keep_path=False)
+        self.copy("*.h", dst="include", src="src/app/", keep_path=False)
 
         if (self.settings.os == "Windows"):
             if self.options.shared:
                 self.copy("*.dll", dst="bin", src="bin", keep_path=False)
-                self.copy("TinyCspLog.lib", dst="lib", src="lib", keep_path=False)
-            else:
-                self.copy("TinyCspLog_static.lib", dst="lib", src="lib", keep_path=False)
 
         if (self.settings.os == "Linux"):
             if self.options.shared:
-                self.copy("*.so", dst="lib", src="lib", keep_path=False)
+                self.copy("*.so", dst="lib", src="app/lib", keep_path=False)
             else:
-                self.copy("*.a", dst="lib", src="lib", keep_path=False)
-
-        self.copy("*.xml", dst="res", src="lib/resources", keep_path=False)
-        self.copy("*.xsd", dst="res", src="lib/resources", keep_path=False)
+                self.copy("*.a", dst="lib", src="app/lib", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)

@@ -10,6 +10,8 @@ variables:
   GOOGLE_TEST_FOLDER_PATH: build/test/bin
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  ORG_NAME: GE-REN-GA-DevOps
+  CHANNEL: stable
 
 .build:
   image: conanio/gcc8
@@ -19,6 +21,11 @@ variables:
   script:
     - sudo chmod +x *.sh
     - ./build.sh $CONAN_PROFILE
+  cache: 
+    policy: pull-push
+    key: "conan-${CI_COMMIT_SHORT_SHA}"
+    paths: 
+      - /home/conan/.conan/
   artifacts:
     paths:
       - build
@@ -75,6 +82,20 @@ variables:
   artifacts:
     reports:
       junit: $GOOGLE_TEST_FOLDER_PATH/report.xml
+
+.deploy:
+  image: conanio/gcc8
+  stage: deploy
+  cache: 
+    policy: pull
+    key: "conan-${CI_COMMIT_SHORT_SHA}"
+    paths: 
+      - /home/conan/.conan/
+  script:
+    - ls -l /home/conan/.conan
+    - conan remote add gitlab https://gitlab.com/api/v4/packages/conan
+    - CONAN_LOGIN_USERNAME=ci_user CONAN_PASSWORD=${CI_JOB_TOKEN} conan upload CppSample* --all --remote=gitlab
+
 
 stages:
   - before
