@@ -154,6 +154,12 @@ x64:build:
     CONAN_PROFILE: $X86_64_CONAN_PROFILE 
   image: $X86_64_DOCKER_IMAGE
 
+ x86:build:
+  extends: .build
+  variables:
+    CONAN_PROFILE: $X86_CONAN_PROFILE 
+  image: $X86_DOCKER_IMAGE 
+
 armv7:build:
   extends: .build
   variables:
@@ -167,6 +173,13 @@ x64:test:
   dependencies:
     - x64:build
   image: $X86_64_DOCKER_IMAGE
+
+  x64:test:
+  extends: .test 
+  needs: ["x86:build"]
+  dependencies:
+    - x86:build
+  image: $X86_DOCKER_IMAGE
 
 # armv7:test:
 #   extends: .test
