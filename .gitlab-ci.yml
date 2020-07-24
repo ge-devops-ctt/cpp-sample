@@ -178,5 +178,8 @@ x64:test:
 sonar:
   extends: .sonar
 
+deploy:
+  extends: .deploy
+
 
   
