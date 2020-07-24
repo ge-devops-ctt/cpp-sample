@@ -26,14 +26,16 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         #COMMAND ${CMAKE_MAKE_PROGRAM} test
         #COMMAND mkdir -p "${CMAKE_BINARY_DIR}/coverage/"
         COMMAND gcovr 
-        -r "${CMAKE_SOURCE_DIR}/app"
+        -r "${CMAKE_SOURCE_DIR}/.."
         --object-directory "${OBJECT_DIR}"
         --gcov-executable "/usr/bin/gcov-8"
-        -e ${REG}
+        -e "${CMAKE_SOURCE_DIR}/test/"
+        -e ${REG} 
         COMMAND gcovr 
-        -r "${CMAKE_SOURCE_DIR}/app"
+        -r "${CMAKE_SOURCE_DIR}/.."
         --object-directory "${OBJECT_DIR}"
         --gcov-executable "/usr/bin/gcov-8"
+        -e "${CMAKE_SOURCE_DIR}/test/"
         -e ${REG}
         --xml
         -o "${CMAKE_BINARY_DIR}/cobertura-coverage.xml"
@@ -43,10 +45,10 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         --object-directory "${OBJECT_DIR}"
         --gcov-executable "/usr/bin/gcov-8"
         -e ${REG}
-        --exclude-directories "${CMAKE_SOURCE_DIR}/test/"
+        -e "${CMAKE_SOURCE_DIR}/test/"
         --sonarqube
         -o "${CMAKE_BINARY_DIR}/sonar-coverage.xml"
-        )
+    )
 endif ()
 
 #set(SRC_FOLDER ${SRC_PROJECT_PATH}/src/*.cc)
