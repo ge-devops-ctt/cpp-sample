@@ -21,6 +21,7 @@ variables:
   script:
     - sudo chmod +x *.sh
     - ./build.sh $CONAN_PROFILE
+    - ls -lR /home/conan/.conan/
   cache: 
     policy: pull-push
     key: "conan-${CI_COMMIT_SHORT_SHA}"
@@ -173,8 +174,8 @@ x64:test:
   dependencies:
     - x64:build
   image: $X86_64_DOCKER_IMAGE
-
-  x64:test:
+  
+x64:test:
   extends: .test 
   needs: ["x86:build"]
   dependencies:
