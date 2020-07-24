@@ -94,7 +94,7 @@ variables:
       - .conan/
   script:
     - conan remote add gitlab https://gitlab.com/api/v4/packages/conan
-    - CONAN_LOGIN_USERNAME=ci_user CONAN_PASSWORD=${CI_JOB_TOKEN} conan upload CppSample* --all -c --remote=gitlab
+    - CONAN_LOGIN_USERNAME=${GITLAB_USER_LOGIN} CONAN_PASSWORD=${CI_JOB_TOKEN} conan upload CppSample* --all -c --remote=gitlab
 
 
 stages:
