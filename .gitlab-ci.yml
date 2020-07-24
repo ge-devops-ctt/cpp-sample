@@ -23,11 +23,11 @@ variables:
     paths:
       - build
 
-.coverage:
+.sonar:
   image: $X86_64_DOCKER_IMAGE
   #tags:
   #  - kubernetes
-  stage: build
+  stage: sonar
   variables:
     CONAN_PROFILE: $X86_64_CONAN_PROFILE
     ENABLE_COVERAGE: 1
@@ -46,8 +46,6 @@ variables:
     - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.build-wrapper-output=bw-output -Dsonar.coverageReportPaths=build/sonar-coverage.xml
 
   artifacts:
-    paths:
-      - build/sonar-coverage.xml
     reports:
       cobertura: build/cobertura-coverage.xml
       
@@ -81,8 +79,8 @@ variables:
 stages:
   - before
   - build
-  - publish
   - test
+  - sonar
   - deploy
 
 #windows:
@@ -109,32 +107,6 @@ stages:
 #     - docker-compose up -d
 #     - docker ps
 
-coverage:
-  extends: .coverage
-
-#pages:
-#  extends: .pages
-  
-x64:build:
-  extends: .build
-  variables:
-    CONAN_PROFILE: $X86_64_CONAN_PROFILE 
-  image: $X86_64_DOCKER_IMAGE
-  
-
-x64:test:
-  extends: .test 
-  needs: ["x64:build"]
-  dependencies:
-    - x64:build
-  image: $X86_64_DOCKER_IMAGE
-
-armv7:build:
-  extends: .build
-  variables:
-    CONAN_PROFILE: $ARMV7_CONAN_PROFILE  
-  image: $ARMV7_DOCKER_IMAGE
-
 get-sonar-binaries: 
   stage: .pre
   cache: 
@@ -152,38 +124,28 @@ get-sonar-binaries:
     - curl -sSLo ./build-wrapper-linux-x86.zip "${SONAR_HOST_URL}/static/cpp/build-wrapper-linux-x86.zip"
     - unzip -oj build-wrapper-linux-x86.zip -d ./build-wrapper
 
-# sonar:
-#   image: $X86_64_DOCKER_IMAGE
-#   stage: build
-#   cache: 
-#     policy: pull-push
-#     key: "${CI_COMMIT_SHORT_SHA}"
-#     paths: 
-#       - build-wrapper/
-#       - sonar-scanner/
-#       - bw-output/
-#   script: 
-#     # Run the build inside the build wrapper
-#     - sudo chmod +x *.sh
-#     - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output ./build.sh
-      
-# sonarcloud-check: 
-#   stage: build
-#   cache: 
-#     policy: pull
-#     key: "${CI_COMMIT_SHORT_SHA}"
-#     paths: 
-#       - build-wrapper/
-#       - sonar-scanner/
-#       - bw-output/
-#       - build/
-#   dependencies:
-#     - coverage
-#     - sonar
-#   script: 
-#     - ls -l
-#     - ls build
-#     - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.build-wrapper-output=bw-output -Dsonar.coverageReportPaths=build/sonar-coverage.xml
+#pages:
+#  extends: .pages
+  
+x64:build:
+  extends: .build
+  variables:
+    CONAN_PROFILE: $X86_64_CONAN_PROFILE 
+  image: $X86_64_DOCKER_IMAGE
+
+armv7:build:
+  extends: .build
+  variables:
+    CONAN_PROFILE: $ARMV7_CONAN_PROFILE  
+  image: $ARMV7_DOCKER_IMAGE
+
+  
+x64:test:
+  extends: .test 
+  needs: ["x64:build"]
+  dependencies:
+    - x64:build
+  image: $X86_64_DOCKER_IMAGE
 
 # armv7:test:
 #   extends: .test
@@ -191,4 +153,9 @@ get-sonar-binaries:
 #   dependencies:
 #     - armv7:build
 #   image: $ARMV7_RUNTIME_DOCKER_IMAGE
+
+sonar:
+  extends: .sonar
+
+
   
