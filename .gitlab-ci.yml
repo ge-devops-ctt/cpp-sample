@@ -12,6 +12,7 @@ variables:
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
   ORG_NAME: GE-REN-GA-DevOps
   CHANNEL: stable
+  CONAN_USER_HOME: ${CI_PROJECT_DIR}
 
 .build:
   image: conanio/gcc8
@@ -21,12 +22,11 @@ variables:
   script:
     - sudo chmod +x *.sh
     - ./build.sh $CONAN_PROFILE
-    - ls -lR /home/conan/.conan/
   cache: 
     policy: pull-push
     key: "conan-${CI_COMMIT_SHORT_SHA}"
     paths: 
-      - /home/conan/.conan/
+      - .conan/
   artifacts:
     paths:
       - build
@@ -91,9 +91,8 @@ variables:
     policy: pull
     key: "conan-${CI_COMMIT_SHORT_SHA}"
     paths: 
-      - /home/conan/.conan/
+      - .conan/
   script:
-    - ls -l /home/conan/.conan
     - conan remote add gitlab https://gitlab.com/api/v4/packages/conan
     - CONAN_LOGIN_USERNAME=ci_user CONAN_PASSWORD=${CI_JOB_TOKEN} conan upload CppSample* --all --remote=gitlab
 
