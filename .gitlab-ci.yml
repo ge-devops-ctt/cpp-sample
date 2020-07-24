@@ -159,7 +159,7 @@ sonar:
     - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output ./build.sh
       
 sonarcloud-check: 
-  stage: .post
+  stage: build
   cache: 
     policy: pull
     key: "${CI_COMMIT_SHORT_SHA}"
