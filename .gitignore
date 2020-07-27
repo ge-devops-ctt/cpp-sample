@@ -336,3 +336,4 @@ conan/
 syslog
 .env
 build-local.sh
+.conan
