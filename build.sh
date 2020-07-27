@@ -14,7 +14,6 @@ fi
 
 export buildPath=build/
 export sourcePath=src/
-export ORG_NAME=CBT
 ORG_NAME=${ORG_NAME:=GE-REN-GA-DevOps}
 CHANNEL=${CHANNEL:=stable}
 
