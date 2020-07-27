@@ -86,12 +86,12 @@ variables:
 
 .deploy:
   image: conanio/gcc8
-  stage: .pre
-  cache: 
-    policy: pull
-    key: "conan-${CI_COMMIT_SHORT_SHA}"
-    paths: 
-      - .conan/
+  stage: before
+  # cache: 
+  #   policy: pull
+  #   key: "conan-${CI_COMMIT_SHORT_SHA}"
+  #   paths: 
+  #    - .conan/
   script:
     - conan remote add gitlab https://gitlab.com/api/v4/packages/conan
     - conan user -p $(DEPLOY_TOKEN) -r gitlab $(DEPLOY_TOKEN_USER)
