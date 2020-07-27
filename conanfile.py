@@ -10,10 +10,14 @@ def coverage():
 def coverityScan():
     return bool(os.getenv("COVERITY_SCAN", '0') == '1')
 
+
+def getVersion():
+    return os.getenv("VERSION", '0.1.0')
+
 class TinyCSPLogConan(ConanFile):
 
     name = getAppName()
-    version = "0.1.0"
+    version = getVersion()
     url = "None"
     license = "None"
     description = "Google test sample"

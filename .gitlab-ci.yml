@@ -1,4 +1,5 @@
 variables:
+  VERSION: 0.2.0
   DOCKER_HOST: tcp://docker:2375
   X86_DOCKER_IMAGE: conanio/gcc8
   X86_64_DOCKER_IMAGE: conanio/gcc8
