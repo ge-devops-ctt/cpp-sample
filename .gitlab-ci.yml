@@ -94,7 +94,7 @@ variables:
   #    - .conan/
   script:
     - conan remote add gitlab https://gitlab.com/api/v4/packages/conan
-    - conan user -p $(DEPLOY_TOKEN) -r gitlab $(DEPLOY_TOKEN_USER)
+    - conan user -p ${DEPLOY_TOKEN} -r gitlab ${DEPLOY_TOKEN_USER}
     - CONAN_LOGIN_USERNAME=${DEPLOY_TOKEN_USER} CONAN_PASSWORD=${DEPLOY_TOKEN} conan upload CppSample* --all -c --remote=gitlab
 
 
