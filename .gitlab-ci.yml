@@ -10,7 +10,7 @@ variables:
   GOOGLE_TEST_FOLDER_PATH: build/test/bin
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-  ORG_NAME: GE-REN-GA-DevOps
+  ORG_NAME: ge-ren-ga-devops-ctt-demo+cpp-sample
   CHANNEL: stable
   CONAN_USER_HOME: ${CI_PROJECT_DIR}
 
