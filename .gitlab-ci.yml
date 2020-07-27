@@ -20,6 +20,8 @@ variables:
   #  - kubernetes
   stage: build
   script:
+    - conan remote add gitlab https://gitlab.com/api/v4/packages/conan
+    - conan user -p ${DEPLOY_TOKEN} -r gitlab ${DEPLOY_TOKEN_USER}
     - sudo chmod +x *.sh
     - ./build.sh $CONAN_PROFILE
   cache: 
@@ -86,7 +88,7 @@ variables:
 
 .deploy:
   image: conanio/gcc8
-  stage: before
+  stage: deploy
   # cache: 
   #   policy: pull
   #   key: "conan-${CI_COMMIT_SHORT_SHA}"
