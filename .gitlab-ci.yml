@@ -1,3 +1,6 @@
+include:
+  - remote: 'https://gitlab.com/ge-ren-ga-devops-ctt-demo/ci-libraries/raw/master/.gitlab-ci-template-conan.yml'
+
 variables:
   VERSION: 0.2.0
   DOCKER_HOST: tcp://docker:2375
@@ -14,90 +17,6 @@ variables:
   ORG_NAME: ge-ren-ga-devops-ctt-demo+cpp-sample
   CHANNEL: stable
   CONAN_USER_HOME: ${CI_PROJECT_DIR}
-
-.build:
-  image: conanio/gcc8
-  #tags:
-  #  - kubernetes
-  stage: build
-  script:
-    - sudo chmod +x *.sh
-    - ./build.sh $CONAN_PROFILE
-  cache: 
-    policy: pull-push
-    key: "conan-${CI_COMMIT_SHORT_SHA}"
-    paths: 
-      - .conan/
-  artifacts:
-    paths:
-      - build
-
-.sonar:
-  image: $X86_64_DOCKER_IMAGE
-  #tags:
-  #  - kubernetes
-  stage: sonar
-  variables:
-    CONAN_PROFILE: $X86_64_CONAN_PROFILE
-    ENABLE_COVERAGE: 1
-  cache: 
-    policy: pull-push
-    key: "${CI_COMMIT_SHORT_SHA}"
-    paths: 
-      - build-wrapper/
-      - sonar-scanner/
-  script:
-    - pip install gcovr
-    - sudo chmod +x *.sh
-    #- ./build.sh $CONAN_PROFILE
-    #- ls build
-    - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output ./build.sh $CONAN_PROFILE
-    - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.build-wrapper-output=bw-output -Dsonar.coverageReportPaths=build/sonar-coverage.xml
-
-  artifacts:
-    reports:
-      cobertura: build/cobertura-coverage.xml
-      
-    #paths:
-    #  - build/coverage/
-
-.pages:
-  stage: publish
-  dependencies:
-    - coverage
-  script:
-    - mv build/coverage/ public/
-  artifacts:
-    paths:
-      - public
-    expire_in: 30 days
-  #only:
-  #  - master
-
-.test:
-  image: conanio/gcc8
-  #tags:
-  #  - gitlab-org
-  stage: test
-  script:
-    - cd $GOOGLE_TEST_FOLDER_PATH && ./GoogleTests --gtest_output=xml:report.xml
-  artifacts:
-    reports:
-      junit: $GOOGLE_TEST_FOLDER_PATH/report.xml
-
-.deploy:
-  image: conanio/gcc8
-  stage: deploy
-  cache: 
-    policy: pull
-    key: "conan-${CI_COMMIT_SHORT_SHA}"
-    paths: 
-      - .conan/
-  script:
-    - conan remote add gitlab https://gitlab.com/api/v4/packages/conan
-    - conan user -p ${DEPLOY_TOKEN} -r gitlab ${DEPLOY_TOKEN_USER}
-    - conan upload CppSample* --all -c --remote=gitlab
-
 
 stages:
   - before
