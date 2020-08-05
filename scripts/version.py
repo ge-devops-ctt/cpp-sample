@@ -1,47 +1,43 @@
 import os 
-import semver
-import subprocess
 from git import Repo
 
-dir_path = os.path.abspath("..") 
-print(dir_path)
+# Manage semver du to conflict with a Conan dependency
+import importlib.util
+spec = importlib.util.spec_from_file_location("semver", "/opt/pyenv/versions/3.7.5/lib/python3.7/site-packages/semver.py")
+semver = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(semver)
+
+# dir_path = os.path.abspath(".")
+dir_path = os.getenv("CI_PROJECT_DIR", "/app")
 repo = Repo(dir_path)
+
 
 def latest_tag():
     try:
         tag = sorted(repo.tags, key=lambda t: t.commit.committed_datetime)[-1]
     except:
         tag = "1.0.0"
-    
+
     return str(tag)
 
-def get_version():
-    branch = repo.head.reference.name
-    tag = latest_tag()
-    next_tag = semver.VersionInfo.parse(tag).bump_minor()
-    if branch == "master":
-        next_tag.bump_prerelease()
-    else:
-        return f"{next_tag}-{branch}"
 
-def list_commit(tag):
-    return list(repo.iter_commits(f'...{tag}'))
+def get_version():
+    branch = os.getenv("CI_COMMIT_REF_NAME") if "CI_COMMIT_REF_NAME" in os.environ else repo.head.reference.name
+    tag = latest_tag()
+   
+    next_tag = semver.VersionInfo.parse(tag).bump_minor()
+    
+    new_tag = os.getenv("CI_COMMIT_TAG")
+    if new_tag:
+        version = new_tag
+    elif branch == "master":
+        version = next_tag.bump_prerelease()
+    else:
+        version = f"{next_tag}-{branch}"
+
+    return version
 
 def main():
-    tag = latest_tag()
-    print(tag)
-    ver = semver.VersionInfo.parse(tag)
-    print(ver.bump_patch())
-    print(ver.bump_minor())
-    print(ver.bump_major())
-    print(ver.bump_minor().bump_prerelease().bump_prerelease())
-    print(list_commit(tag))
     print(get_version())
 
 main()
-
-
-
-
-
-
