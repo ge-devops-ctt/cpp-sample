@@ -1,7 +1,7 @@
 include:
   - remote: 'https://gitlab.com/ge-ren-ga-devops-ctt-demo/ci-libraries/raw/master/.gitlab-ci-template-conan.yml'
 
-variables:
+variables: 
   VERSION: 0.2.0
   DOCKER_HOST: tcp://docker:2375
   X86_DOCKER_IMAGE: conanio/gcc8
@@ -74,7 +74,7 @@ x64:build:
   variables:
     CONAN_PROFILE: $X86_64_CONAN_PROFILE 
   image: $X86_64_DOCKER_IMAGE
-
+  
 x86:build:
   extends: .build
   variables:
