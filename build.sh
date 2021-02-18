@@ -5,21 +5,15 @@
 # docker exec -it testApplication bash
 set -xe
 
-if [ -z $1 ]
-then
-    export profile=profiles/x86_64;
-else
-    export profile=$1;
-fi
-
-export buildPath=build/
-export sourcePath=src/
+PROFILE=${PROFILE:=profiles/x86_64}
+BUILD_PATH=${BUILD_PATH:==build}
+SOURCE_PATH=${SOURCE_PATH:==src}
 ORG_NAME=${ORG_NAME:=GE-REN-GA-DevOps}
 CHANNEL=${CHANNEL:=stable}
 
-rm -r ${buildPath} || true
-conan install . --install-folder=${buildPath} --profile ${profile} -u --build missing
-conan build . --build-folder=${buildPath}
-conan export-pkg . ${ORG_NAME}/${CHANNEL} --source-folder=${sourcePath} --build-folder=${buildPath} --force
+rm -r ${BUILD_PATH} || true
+conan install . --install-folder=${BUILD_PATH} --profile ${PROFILE} -u --build missing
+conan build . --build-folder=${BUILD_PATH}
+conan export-pkg . ${ORG_NAME}/${CHANNEL} --source-folder=${SOURCE_PATH} --build-folder=${BUILD_PATH} --force
 
 set +x
