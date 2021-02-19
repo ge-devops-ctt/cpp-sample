@@ -45,7 +45,7 @@ steps:
   test:
     stage: "test"
     commands:
-      - apt-add-repository ppa:qameta/allure && apt update && apt install allure -y
+      - apt update && apt install allure -y
       - cd $GOOGLE_TEST_FOLDER_PATH && ./GoogleTests --gtest_output=xml:report.xml
       - allure generate --profile junit .
     scale:
