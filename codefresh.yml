@@ -22,7 +22,7 @@ steps:
   build:
     stage: "build"
     commands:
-      - ./build
+      - ./build.sh
     scale:
       x86_64:
         image: conanio/gcc8
