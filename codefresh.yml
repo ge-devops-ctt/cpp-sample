@@ -21,6 +21,7 @@ steps:
     
   build:
     stage: "build"
+    working_directory: ${{clone}}
     commands:
       - ls -la
       - ./build.sh
