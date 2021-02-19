@@ -45,7 +45,6 @@ steps:
   test:
     stage: "test"
     commands:
-      - apt update && apt install allure -y
       - cd $GOOGLE_TEST_FOLDER_PATH && ./GoogleTests --gtest_output=xml:report.xml
       - allure generate --profile junit .
     scale:
@@ -65,5 +64,9 @@ steps:
       #   image: arm64v8/ubuntu
       #   environment:
       #     - GOOGLE_TEST_FOLDER_PATH=build/profiles/armv8/test/bin
-          
+  allure:
+    stage: "test"
+    image: frankescobar/allure-docker-service
+    commands: 
+      - allure generate build/profiles/x86/test/bin
 
