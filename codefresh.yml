@@ -46,7 +46,6 @@ steps:
     stage: "test"
     commands:
       - cd $GOOGLE_TEST_FOLDER_PATH && ./GoogleTests --gtest_output=xml:report.xml
-      - allure generate --profile junit .
     scale:
       test_x86_64:
         image: conanio/gcc8
