@@ -31,10 +31,16 @@ steps:
         image: conanio/gcc8
         environment:
           - PROFILE=profiles/x86_64
+          - GOOGLE_TEST_FOLDER_PATH=build/profiles/x86_64/test/bin
+        commands:
+          - cd $GOOGLE_TEST_FOLDER_PATH && ./GoogleTests --gtest_output=xml:report.xml
       x86:
         image: conanio/gcc8
         environment:
           - PROFILE=profiles/x86
+          - GOOGLE_TEST_FOLDER_PATH=build/profiles/x86/test/bin
+        commands:
+          - cd $GOOGLE_TEST_FOLDER_PATH && ./GoogleTests --gtest_output=xml:report.xml
       armv7:
         image: conanio/gcc8-armv7
         environment:
