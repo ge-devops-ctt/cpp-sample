@@ -39,6 +39,10 @@ steps:
         image: conanio/gcc8-armv7
         environment:
           - PROFILE=profiles/armv7
+      armv8:
+        image: conanio/gcc8-armv8
+        environment:
+          - PROFILE=profiles/armv8
   test:
     stage: "test"
     commands:
@@ -56,5 +60,9 @@ steps:
         image: arm32v7/ubuntu
         environment:
           - GOOGLE_TEST_FOLDER_PATH=build/profiles/armv7/test/bin
+      test_armv8:
+        image: arm64v8/ubuntu
+        environment:
+          - GOOGLE_TEST_FOLDER_PATH=build/profiles/armv8/test/bin
           
 
