@@ -22,7 +22,7 @@ steps:
   build:
     stage: "build"
     environment:
-      - CONAN_USER_HOME="${{main_clone}}/conan"
+      - CONAN_USER_HOME=/codefresh/volume/${{CF_REPO_NAME}}/.conan
     commands:
       - ls -la
       - chmod +x build.sh && ./build.sh
