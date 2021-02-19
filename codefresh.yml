@@ -68,5 +68,13 @@ steps:
     image: frankescobar/allure-docker-service
     commands: 
       - allure generate build/profiles/x86/test/bin --clean
-      - ls -l allure-report
+      - cp -r -f ./allure-report $CF_VOLUME_PATH/allure-report
+  unit_test_reporting_step:
+    stage: "test"
+    title: Generate test reporting
+    image: codefresh/cf-docker-test-reporting
+    working_directory: '${{CF_VOLUME_PATH}}/'
+    environment:
+      - BUCKET_NAME=azure-blob
+      - CF_STORAGE_INTEGRATION=azure
 
