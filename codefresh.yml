@@ -23,7 +23,7 @@ steps:
     stage: "build"
     commands:
       - ls -la
-      - chmod +x && ./build.sh
+      - chmod +x build.sh && ./build.sh
     scale:
       x86_64:
         image: conanio/gcc8
