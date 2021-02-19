@@ -24,7 +24,6 @@ steps:
     environment:
       - CONAN_USER_HOME=/codefresh/volume/.conan
     commands:
-      - ls -la
       - chmod +x build.sh && ./build.sh
     scale:
       x86_64:
@@ -35,18 +34,20 @@ steps:
         image: conanio/gcc8
         environment:
           - PROFILE=profiles/x86
-      armv7:
-        image: conanio/gcc8-armv7
-        environment:
-          - PROFILE=profiles/armv7
-      armv8:
-        image: conanio/gcc8-armv8
-        environment:
-          - PROFILE=profiles/armv8
+      # armv7:
+      #   image: conanio/gcc8-armv7
+      #   environment:
+      #     - PROFILE=profiles/armv7
+      # armv8:
+      #   image: conanio/gcc8-armv8
+      #   environment:
+      #     - PROFILE=profiles/armv8
   test:
     stage: "test"
     commands:
+      - apt-add-repository ppa:qameta/allure && apt update && apt install allure -y
       - cd $GOOGLE_TEST_FOLDER_PATH && ./GoogleTests --gtest_output=xml:report.xml
+      - allure generate --profile junit .
     scale:
       test_x86_64:
         image: conanio/gcc8
@@ -56,13 +57,13 @@ steps:
         image: conanio/gcc8
         environment:
           - GOOGLE_TEST_FOLDER_PATH=build/profiles/x86/test/bin
-      test_armv7:
-        image: arm32v7/ubuntu
-        environment:
-          - GOOGLE_TEST_FOLDER_PATH=build/profiles/armv7/test/bin
-      test_armv8:
-        image: arm64v8/ubuntu
-        environment:
-          - GOOGLE_TEST_FOLDER_PATH=build/profiles/armv8/test/bin
+      # test_armv7:
+      #   image: arm32v7/ubuntu
+      #   environment:
+      #     - GOOGLE_TEST_FOLDER_PATH=build/profiles/armv7/test/bin
+      # test_armv8:
+      #   image: arm64v8/ubuntu
+      #   environment:
+      #     - GOOGLE_TEST_FOLDER_PATH=build/profiles/armv8/test/bin
           
 
