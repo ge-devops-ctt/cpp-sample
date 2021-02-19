@@ -44,15 +44,15 @@ steps:
     commands:
       - cd $GOOGLE_TEST_FOLDER_PATH && ./GoogleTests --gtest_output=xml:report.xml
     scale:
-      x86_64:
+      test_x86_64:
         image: conanio/gcc8
         environment:
           - GOOGLE_TEST_FOLDER_PATH=build/profiles/x86_64/test/bin
-      x86:
+      test_x86:
         image: conanio/gcc8
         environment:
           - GOOGLE_TEST_FOLDER_PATH=build/profiles/x86/test/bin
-      armv7:
+      test_armv7:
         image: arm32v7/ubuntu
         environment:
           - GOOGLE_TEST_FOLDER_PATH=build/profiles/armv7/test/bin
