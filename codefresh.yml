@@ -76,5 +76,5 @@ steps:
     working_directory: '${{CF_VOLUME_PATH}}/'
     environment:
       - BUCKET_NAME=azure-blob
-      - CF_STORAGE_INTEGRATION=azure
+      - CF_STORAGE_INTEGRATION=azure-blob
 
