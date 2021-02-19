@@ -21,6 +21,8 @@ steps:
     
   build:
     stage: "build"
+    environment:
+      - CONAN_USER_HOME=./conan
     commands:
       - ls -la
       - chmod +x build.sh && ./build.sh
