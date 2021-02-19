@@ -22,6 +22,7 @@ steps:
   build:
     stage: "build"
     commands:
+      - ls -la
       - ./build.sh
     scale:
       x86_64:
