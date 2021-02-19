@@ -28,13 +28,13 @@ steps:
       x86_64:
         image: conanio/gcc8
         environment:
-          - PROFILE="profiles/x86_64"
+          - PROFILE=profiles/x86_64
       x86:
         image: conanio/gcc8
         environment:
-          - PROFILE="profiles/x86"
+          - PROFILE=profiles/x86
       armv7:
         image: conanio/gcc8-armv7
         environment:
-          - PROFILE="profiles/armv7"
+          - PROFILE=profiles/armv7
 
