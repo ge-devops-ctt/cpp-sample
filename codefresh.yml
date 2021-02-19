@@ -68,5 +68,5 @@ steps:
     image: frankescobar/allure-docker-service
     commands: 
       - allure generate build/profiles/x86/test/bin
-      - ls -l build/profiles/x86/test/bin/allure-report
+      - ls -l allure-report
 
