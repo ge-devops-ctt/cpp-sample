@@ -68,7 +68,7 @@ steps:
     image: frankescobar/allure-docker-service
     commands:
       - cat build/profiles/x86/test/bin/report.xml
-      - allure generate build/profiles/x86/test/bin --clean
+      - allure generate build/profiles/x86/test/bin/report.xml --clean
       - cp -r -f ./allure-report $CF_VOLUME_PATH/allure-results
   unit_test_reporting_step:
     stage: "test"
