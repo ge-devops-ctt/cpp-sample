@@ -337,3 +337,5 @@ syslog
 .env
 build-local.sh
 .conan
+docker-compose.yaml
+allure-report

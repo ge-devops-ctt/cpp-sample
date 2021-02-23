@@ -67,9 +67,11 @@ steps:
     stage: "test"
     image: frankescobar/allure-docker-service
     commands:
+      - pwd
       - cat build/profiles/x86/test/bin/report.xml
-      - allure generate build/profiles/x86/test/bin/report.xml --clean
+      - allure generate build/profiles/x86/test/bin --clean
       - cp -r -f ./allure-report $CF_VOLUME_PATH/allure-results
+      - ls -lR ./allure-results
   unit_test_reporting_step:
     stage: "test"
     title: Generate test reporting
@@ -78,4 +80,9 @@ steps:
     environment:
       - BUCKET_NAME=azure-blob
       - CF_STORAGE_INTEGRATION=azure-blob
+    when:
+     condition:
+       any:
+         mySuccessCondition: workflow.status == 'success'
+         myFailureCondition: workflow.status == 'failure'
 
