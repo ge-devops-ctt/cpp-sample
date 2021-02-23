@@ -71,7 +71,7 @@ steps:
       - cat build/profiles/x86/test/bin/report.xml
       - allure generate build/profiles/x86/test/bin --clean
       - cp -r -f ./allure-report $CF_VOLUME_PATH/allure-results
-      - ls -lR ./allure-results
+      - ls -lR $CF_VOLUME_PATH/allure-results
   unit_test_reporting_step:
     stage: "test"
     title: Generate test reporting
