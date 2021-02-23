@@ -44,6 +44,7 @@ steps:
       #     - PROFILE=profiles/armv8
   test:
     stage: "test"
+    fail_fast: false
     commands:
       - cd $GOOGLE_TEST_FOLDER_PATH && ./GoogleTests --gtest_output=xml:report.xml
     scale:
@@ -80,9 +81,14 @@ steps:
     environment:
       - BUCKET_NAME=azure-blob
       - CF_STORAGE_INTEGRATION=azure-blob
+  MarkMyPipelineStatus:
+    image: alpine:latest
+    title: Checking Unit test result
+    commands:
+    - echo "Unit tests failed, marking the whole pipeline as failed"
+    - exit 1
     when:
-     condition:
-       any:
-         mySuccessCondition: workflow.status == 'success'
-         myFailureCondition: workflow.status == 'failure'
+      condition:
+        all:
+          myCondition: test.result == 'failure'
 
