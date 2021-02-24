@@ -109,6 +109,7 @@ steps:
           test_x86_64: test_x86_64.result == 'failure'
           test_x86: test_x86.result == 'failure'
   functional_tests:
+    stage: "test"
     image: alpine:latest
     title: Reading Redis data
     commands:
