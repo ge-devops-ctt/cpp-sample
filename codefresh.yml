@@ -22,7 +22,7 @@ steps:
   build:
     stage: "build"
     environment:
-      - CONAN_USER_HOME=/codefresh/volume/.conan
+      - CONAN_USER_HOME=/codefresh/volume
     commands:
       - chmod +x build.sh && ./build.sh
     scale:
