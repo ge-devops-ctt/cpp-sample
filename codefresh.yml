@@ -71,14 +71,16 @@ steps:
       - pwd
       - cat build/profiles/x86/test/bin/report.xml
       - allure generate build/profiles/x86/test/bin --clean
-      - cp -r -f ./allure-report $CF_VOLUME_PATH/allure-results
-      - ls -lR $CF_VOLUME_PATH/allure-results
+      #- cp -r -f ./allure-report $CF_VOLUME_PATH/allure-results
+      #- ls -lR $CF_VOLUME_PATH/allure-results
   unit_test_reporting_step:
     stage: "test"
     title: Generate test reporting
     image: codefresh/cf-docker-test-reporting
-    working_directory: '${{CF_VOLUME_PATH}}/'
+    #working_directory: '${{CF_VOLUME_PATH}}/'
     environment:
+      - REPORT_DIR=allure-report
+      - REPORT_INDEX_FILE=index.html
       - BUCKET_NAME=azure-blob
       - CF_STORAGE_INTEGRATION=azure-blob
   MarkMyPipelineStatus:
