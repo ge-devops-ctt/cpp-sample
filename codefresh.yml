@@ -8,6 +8,14 @@ stages:
   - "build"
   - "test"
 
+services:
+  name: my_database
+  composition:
+    my-redis-db-host:
+      image: redis:latest
+      ports:
+        - 6379 
+
 steps:
   main_clone:
     title: "Cloning repository"
@@ -101,4 +109,12 @@ steps:
         any:
           test_x86_64: test_x86_64.result == 'failure'
           test_x86: test_x86.result == 'failure'
+  functional_tests:
+    image: alpine:latest
+    title: Reading Redis data
+    commands:
+      - apk --update add redis
+      - redis-cli -u redis://my-redis-db-host:6379 -n 0 LPOP mylist 
+    services:
+      - my_database
 
