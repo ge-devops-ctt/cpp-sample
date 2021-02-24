@@ -71,7 +71,8 @@ steps:
     commands:
       - pwd
       - cat build/profiles/x86/test/bin/report.xml
-      - allure generate build/profiles/x86/test/bin --clean
+      - allure generate build/profiles/x86_64/test/bin --clean -o allure-report-x86_64
+      - allure generate build/profiles/x86/test/bin --clean -o allure-report-x86
       #- cp -r -f ./allure-report $CF_VOLUME_PATH/allure-results
       #- ls -lR $CF_VOLUME_PATH/allure-results
   unit_test_reporting_step:
@@ -80,8 +81,12 @@ steps:
     image: codefresh/cf-docker-test-reporting
     #working_directory: '${{CF_VOLUME_PATH}}/'
     environment:
-      - REPORT_DIR=allure-report
-      - REPORT_INDEX_FILE=index.html
+      - REPORT_DIR.0=allure-report-x86_64
+      - REPORT_INDEX_FILE.0=index.html
+      - REPORT_TYPE.0=allure
+      - REPORT_DIR.1=allure-report-x86
+      - REPORT_INDEX_FILE.1=index.html
+      - REPORT_TYPE.1=allure
       - BUCKET_NAME=azure-blob
       - CF_STORAGE_INTEGRATION=azure-blob
   MarkMyPipelineStatus:
@@ -92,6 +97,7 @@ steps:
     - exit 1
     when:
       condition:
-        all:
-          myCondition: test.result == 'failure'
+        any:
+          test_x86_64: test_x86_64.result == 'failure'
+          test_x86: test_x86.result == 'failure'
 
