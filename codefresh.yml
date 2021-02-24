@@ -83,15 +83,16 @@ steps:
     environment:
       - REPORT_DIR.0=allure-report-x86_64
       - REPORT_INDEX_FILE.0=index.html
-      - REPORT_TYPE.0=allure
+      - REPORT_TYPE.0=x86_64
       - REPORT_DIR.1=allure-report-x86
       - REPORT_INDEX_FILE.1=index.html
-      - REPORT_TYPE.1=allure
+      - REPORT_TYPE.1=x86
       - BUCKET_NAME=azure-blob
       - CF_STORAGE_INTEGRATION=azure-blob
   MarkMyPipelineStatus:
     image: alpine:latest
     title: Checking Unit test result
+    stage: "test"
     commands:
     - echo "Unit tests failed, marking the whole pipeline as failed"
     - exit 1
