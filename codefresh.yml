@@ -15,6 +15,47 @@ services:
       image: redis:latest
       ports:
         - 6379 
+    server:
+    image: balabit/syslog-ng
+    container_name: server
+    networks:
+      app_net:
+        ipv4_address: 172.22.0.2
+    volumes:
+      - ./syslog:/tmp/syslog-data
+     # - type: volume
+     #   source: syslog-conf
+     #   target: /etc/syslog-ng
+      #- "./syslog-ng-server.conf:/etc/syslog-ng/syslog-ng.conf"
+      #- /c/Users/212782121/Dev/docker/compose/csplog-functional-test/nginx:/var/log/nginx/
+    
+    secondaryServer:
+      image: balabit/syslog-ng
+      container_name: secondaryServer
+      networks:
+        app_net:
+          ipv4_address: 172.22.0.4
+      volumes:
+        - ./syslog:/tmp/syslog-data
+        # - type: volume
+        #   source: syslog-conf
+        #   target: /etc/syslog-ng
+        #- "./syslog-ng-server.conf:/etc/syslog-ng/syslog-ng.conf"
+        #- /c/Users/212782121/Dev/docker/compose/csplog-functional-test/nginx:/var/log/nginx/ 
+
+    thirdServer:
+      image: balabit/syslog-ng
+      container_name: thirdServer
+      networks:
+        app_net:
+          ipv4_address: 172.22.0.6
+      volumes:
+        - ./syslog:/tmp/syslog-data
+        # - type: volume
+        #   source: syslog-conf
+        #   target: /etc/syslog-ng
+        #- "./syslog-ng-server.conf:/etc/syslog-ng/syslog-ng.conf"
+        #- /c/Users/212782121/Dev/docker/compose/csplog-functional-test/nginx:/var/log/nginx/ 
 
 steps:
   main_clone:
