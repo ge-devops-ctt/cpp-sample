@@ -5,6 +5,7 @@ version: "1.0"
 # Stages can help you organize your steps in stages
 stages:
   - "clone"
+ # - "scan"
   - "build"
   - "test"
 
@@ -17,7 +18,7 @@ services:
         - 6379 
     server:
       image: balabit/syslog-ng
-      container_name: server
+      #container_name: server
       networks:
         app_net:
           ipv4_address: 172.22.0.2
@@ -31,7 +32,7 @@ services:
     
     secondaryServer:
       image: balabit/syslog-ng
-      container_name: secondaryServer
+      #container_name: secondaryServer
       networks:
         app_net:
           ipv4_address: 172.22.0.4
@@ -45,7 +46,7 @@ services:
 
     thirdServer:
       image: balabit/syslog-ng
-      container_name: thirdServer
+      #container_name: thirdServer
       networks:
         app_net:
           ipv4_address: 172.22.0.6
